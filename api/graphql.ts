@@ -13,6 +13,9 @@ const apolloServer = new ApolloServer({
   dataSources,
   playground: true,
   introspection: true,
+  cacheControl: {
+    defaultMaxAge: 300,
+  },
 });
 
 export const config = {
