@@ -13,7 +13,7 @@ export async function seed(knex: Knex): Promise<void> {
       if (CSV_REGEXP.test(file)) {
         return file;
       }
-      return '';
+      return "";
     })
     .filter(Boolean);
 
