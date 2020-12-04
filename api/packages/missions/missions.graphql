@@ -33,4 +33,10 @@ type Mission {
   Mapped from remarks
   """
   notes: String
+  """
+  Duration of the mission in seconds
+
+  To convert to
+  """
+  duration: Int
 }

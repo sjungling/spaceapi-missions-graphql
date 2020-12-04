@@ -20,6 +20,7 @@ export const resolvers: Resolvers = {
           lm_name,
           launch_vehicle,
           remarks,
+          duration,
         }) => {
           return {
             id,
@@ -29,6 +30,7 @@ export const resolvers: Resolvers = {
             lunarModule: lm_name === "N/A" ? null : lm_name,
             launchVehicle: launch_vehicle,
             notes: remarks,
+            duration: duration ? parseInt(duration, 10) : null,
           };
         }
       );

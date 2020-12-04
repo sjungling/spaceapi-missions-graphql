@@ -35,6 +35,12 @@ type Mission {
   launchVehicle: String!
   """Mapped from remarks"""
   notes: String
+  """
+  Duration of the mission in seconds
+  
+  To convert to 
+  """
+  duration: Int
 }
 
 scalar DateTime
