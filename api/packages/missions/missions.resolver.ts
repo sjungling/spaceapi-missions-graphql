@@ -1,5 +1,17 @@
-import { Resolvers } from "../../types/resolvers";
+import { Mission, Resolvers, ResolversTypes } from "../../types/resolvers";
 
+const missionResultToMissionType = (result: any): Mission => {
+  return {
+    id: result.id,
+    mission: result.mission,
+    launchDate: result.launch_date_time,
+    commandModule: result.cm_name === "N/A" ? null : result.cm_name,
+    lunarModule: result.lm_name === "N/A" ? null : result.lm_name,
+    launchVehicle: result.launch_vehicle,
+    notes: result.remarks,
+    duration: result.duration ? parseInt(result.duration, 10) : null,
+  };
+};
 export const resolvers: Resolvers = {
   /**
    * Query-Resolvers for the `Mission` schema package
@@ -36,6 +48,18 @@ export const resolvers: Resolvers = {
       );
       return response;
     },
+    mission: async (_root, args, { dataSources }) => {
+      const result = await dataSources.db.getMissionById(args.id);
+      let response;
+      if (result.length > 0) {
+        response = missionResultToMissionType(result[0]);
+      } else {
+        response = {
+          message: "Unable to find that particular mission",
+        };
+      }
+      return response;
+    },
   },
   /**
    * Field-Resolvers for `Mission`
@@ -51,6 +75,21 @@ export const resolvers: Resolvers = {
         };
       });
       return response;
+    },
+  },
+  /**
+   * Union Resolve Types
+   */
+  MissionResult: {
+    __resolveType: (obj, _context, _info) => {
+      /**
+       * Cast `obj` as `Mission` otherwise TS is confused on the existence of `id`
+       */
+      if ((obj as Mission)?.id) {
+        return "Mission";
+      } else {
+        return "NotFound";
+      }
     },
   },
 };

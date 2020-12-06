@@ -1,9 +1,14 @@
+type NotFound {
+  message: String!
+}
+
 type Query {
   hello: String
   """Fetch all Astronauts from the Apollo space program"""
   astronauts: [Astronaut]!
   """Fetch all Apollo space program missions"""
   missions: [Mission]
+  mission(id: Int!): MissionResult!
 }
 
 type Astronaut {
@@ -12,6 +17,8 @@ type Astronaut {
   firstName: String!
   lastName: String!
 }
+
+union MissionResult = Mission | NotFound
 
 type Mission {
   id: ID!
@@ -38,7 +45,7 @@ type Mission {
   """
   Duration of the mission in seconds
   
-  To convert to 
+  To convert to
   """
   duration: Int
 }

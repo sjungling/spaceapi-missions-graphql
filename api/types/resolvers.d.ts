@@ -11,6 +11,10 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = {
+  [X in Exclude<keyof T, K>]?: T[X];
+} &
+  { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -21,6 +25,11 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type NotFound = {
+  __typename?: "NotFound";
+  message: Scalars["String"];
+};
+
 export type Query = {
   __typename?: "Query";
   hello?: Maybe<Scalars["String"]>;
@@ -28,6 +37,11 @@ export type Query = {
   astronauts: Array<Maybe<Astronaut>>;
   /** Fetch all Apollo space program missions */
   missions?: Maybe<Array<Maybe<Mission>>>;
+  mission: MissionResult;
+};
+
+export type QueryMissionArgs = {
+  id: Scalars["Int"];
 };
 
 export type Astronaut = {
@@ -37,6 +51,8 @@ export type Astronaut = {
   firstName: Scalars["String"];
   lastName: Scalars["String"];
 };
+
+export type MissionResult = Mission | NotFound;
 
 export type Mission = {
   __typename?: "Mission";
@@ -185,26 +201,40 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
+  NotFound: ResolverTypeWrapper<NotFound>;
   String: ResolverTypeWrapper<Scalars["String"]>;
+  Query: ResolverTypeWrapper<{}>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
   Astronaut: ResolverTypeWrapper<Astronaut>;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
+  MissionResult: ResolversTypes["Mission"] | ResolversTypes["NotFound"];
   Mission: ResolverTypeWrapper<Mission>;
-  Int: ResolverTypeWrapper<Scalars["Int"]>;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query: {};
+  NotFound: NotFound;
   String: Scalars["String"];
+  Query: {};
+  Int: Scalars["Int"];
   Astronaut: Astronaut;
   ID: Scalars["ID"];
+  MissionResult:
+    | ResolversParentTypes["Mission"]
+    | ResolversParentTypes["NotFound"];
   Mission: Mission;
-  Int: Scalars["Int"];
   DateTime: Scalars["DateTime"];
   Boolean: Scalars["Boolean"];
+};
+
+export type NotFoundResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["NotFound"] = ResolversParentTypes["NotFound"]
+> = {
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<
@@ -222,6 +252,12 @@ export type QueryResolvers<
     ParentType,
     ContextType
   >;
+  mission?: Resolver<
+    ResolversTypes["MissionResult"],
+    ParentType,
+    ContextType,
+    RequireFields<QueryMissionArgs, "id">
+  >;
 };
 
 export type AstronautResolvers<
@@ -232,6 +268,13 @@ export type AstronautResolvers<
   firstName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MissionResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["MissionResult"] = ResolversParentTypes["MissionResult"]
+> = {
+  __resolveType: TypeResolveFn<"Mission" | "NotFound", ParentType, ContextType>;
 };
 
 export type MissionResolvers<
@@ -268,8 +311,10 @@ export interface DateTimeScalarConfig
 }
 
 export type Resolvers<ContextType = any> = {
+  NotFound?: NotFoundResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Astronaut?: AstronautResolvers<ContextType>;
+  MissionResult?: MissionResultResolvers<ContextType>;
   Mission?: MissionResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
 };

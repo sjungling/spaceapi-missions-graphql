@@ -1,9 +1,13 @@
+# import NotFound from '../common.graphql'
 type Query {
   """
   Fetch all Apollo space program missions
   """
   missions: [Mission]
+  mission(id: Int!): MissionResult!
 }
+
+union MissionResult = Mission | NotFound
 
 type Mission {
   id: ID!
@@ -35,8 +39,6 @@ type Mission {
   notes: String
   """
   Duration of the mission in seconds
-
-  To convert to
   """
   duration: Int
 }
