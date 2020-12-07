@@ -1,10 +1,33 @@
+type NotFound {
+  message: String!
+}
+
+enum MEDIA_TYPE_ENUM {
+  IMAGE
+  VIDEO
+}
+
+"""Image or Video from the internet"""
+type Media {
+  """Source URL"""
+  url: String!
+  """Copyright notice, etc."""
+  attribution: String
+  """Denotes either a VIDEO or IMAGE"""
+  type: MEDIA_TYPE_ENUM!
+}
+
 type Query {
   hello: String
   """Fetch all Astronauts from the Apollo space program"""
   astronauts: [Astronaut]!
+  astronaut(id: Int): AstronautResult!
   """Fetch all Apollo space program missions"""
   missions: [Mission]
+  mission(id: Int!): MissionResult!
 }
+
+union AstronautResult = Astronaut | NotFound
 
 type Astronaut {
   """ID is an auto-incrementing value from data store"""
@@ -13,6 +36,8 @@ type Astronaut {
   lastName: String!
 }
 
+union MissionResult = Mission | NotFound
+
 type Mission {
   id: ID!
   """
@@ -20,7 +45,7 @@ type Mission {
   
   **Example:** `Apollo 11`
   """
-  mission: String!
+  mission: String
   """
   Launch Date of mission includeing UTC timestamp
   
@@ -35,12 +60,9 @@ type Mission {
   launchVehicle: String!
   """Mapped from remarks"""
   notes: String
-  """
-  Duration of the mission in seconds
-  
-  To convert to 
-  """
+  """Duration of the mission in seconds"""
   duration: Int
+  media: [Media]
 }
 
 scalar DateTime

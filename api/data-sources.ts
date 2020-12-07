@@ -20,6 +20,16 @@ class MyDatabase extends SQLDataSource {
   getMissions() {
     return this.knex.select("*").from("missions");
   }
+  getMissionById(mission_id: Number) {
+    return this.knex
+      .select("*")
+      .from("missions")
+      .where({ id: mission_id })
+      .limit(1);
+  }
+  getMissionMediaById(mission_id: Number) {
+    return this.knex.select("*").from("media").where({ mission_id });
+  }
   getAstronautsByMission(mission_id: Number) {
     return this.knex
       .select("*")
@@ -31,6 +41,13 @@ class MyDatabase extends SQLDataSource {
   }
   getAstronauts() {
     return this.knex.select("*").from("crew");
+  }
+  getAstronautById(astronaut_id: Number) {
+    return this.knex
+      .select("*")
+      .from("crew")
+      .where({ id: astronaut_id })
+      .limit(1);
   }
 }
 

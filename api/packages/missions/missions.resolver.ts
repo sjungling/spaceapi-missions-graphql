@@ -1,4 +1,16 @@
-import { Resolvers } from "../../types/resolvers";
+import { Mission, NotFound, Resolvers, Media } from "../../types/resolvers";
+import { formatAstronaut } from "../astronauts/astronauts.resolver";
+
+const missionResultToMissionType = (result: any): Mission => ({
+  id: result.id,
+  mission: result.mission,
+  launchDate: result.launch_date_time,
+  commandModule: result.cm_name === "N/A" ? null : result.cm_name,
+  lunarModule: result.lm_name === "N/A" ? null : result.lm_name,
+  launchVehicle: result.launch_vehicle,
+  notes: result.remarks,
+  duration: result.duration ? parseInt(result.duration, 10) : null,
+});
 
 export const resolvers: Resolvers = {
   /**
@@ -11,29 +23,21 @@ export const resolvers: Resolvers = {
        * better visibility into the ultimate response object
        */
       const results = await dataSources.db.getMissions();
-      const response = results.map(
-        ({
-          id,
-          mission,
-          launch_date_time,
-          cm_name,
-          lm_name,
-          launch_vehicle,
-          remarks,
-          duration,
-        }) => {
-          return {
-            id,
-            mission,
-            launchDate: launch_date_time,
-            commandModule: cm_name === "N/A" ? null : cm_name,
-            lunarModule: lm_name === "N/A" ? null : lm_name,
-            launchVehicle: launch_vehicle,
-            notes: remarks,
-            duration: duration ? parseInt(duration, 10) : null,
-          };
-        }
+      const response = results.map((result) =>
+        missionResultToMissionType(result)
       );
+      return response;
+    },
+    mission: async (_root, args, { dataSources }) => {
+      const result = await dataSources.db.getMissionById(args.id);
+      let response;
+      if (result.length > 0) {
+        response = missionResultToMissionType(result[0]);
+      } else {
+        response = {
+          message: "Unable to find that particular mission",
+        };
+      }
       return response;
     },
   },
@@ -43,14 +47,32 @@ export const resolvers: Resolvers = {
   Mission: {
     astronauts: async (root, _args, { dataSources }) => {
       const results = await dataSources.db.getAstronautsByMission(root.id);
-      const response = results.map(({ id, first_name, last_name }) => {
-        return {
-          id,
-          firstName: first_name,
-          lastName: last_name,
-        };
-      });
+      const response = results.map((result) => formatAstronaut(result));
       return response;
+    },
+    media: async (root, _args, { dataSources }) => {
+      const results = await dataSources.db.getMissionMediaById(root.id);
+      const response = results.map(({ url, attribution, type }) => ({
+        url,
+        attribution: attribution ?? null,
+        type: type.toUpperCase(),
+      }));
+      return response;
+    },
+  },
+  /**
+   * Union Resolve Types
+   */
+  MissionResult: {
+    __resolveType: (obj, _context, _info) => {
+      /**
+       * Cast `obj` as `NotFound` otherwise TS is confused on the existence of `id`
+       */
+      if ((obj as NotFound)?.message) {
+        return "NotFound";
+      } else {
+        return "Mission";
+      }
     },
   },
 };

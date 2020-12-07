@@ -1,9 +1,14 @@
+# import NotFound from '../common.graphql'
+
 type Query {
   """
   Fetch all Astronauts from the Apollo space program
   """
   astronauts: [Astronaut]!
+  astronaut(id: Int): AstronautResult!
 }
+
+union AstronautResult = Astronaut | NotFound
 
 type Astronaut {
   """

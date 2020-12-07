@@ -1,0 +1,27 @@
+type NotFound {
+  message: String!
+}
+
+enum MEDIA_TYPE_ENUM {
+  IMAGE
+  VIDEO
+}
+
+"""
+Image or Video from the internet
+"""
+type Media {
+  """
+  Source URL
+  """
+  url: String!
+  """
+  Copyright notice, etc.
+  """
+  attribution: String
+
+  """
+  Denotes either a VIDEO or IMAGE
+  """
+  type: MEDIA_TYPE_ENUM!
+}
