@@ -14,7 +14,6 @@ const knexConfig = {
 class MyDatabase extends SQLDataSource {
   knex: any;
   constructor(config: any) {
-    // console.info(`Loading data from ${databasePath}`);
     super(config);
   }
   getMissions() {
@@ -32,7 +31,7 @@ class MyDatabase extends SQLDataSource {
   }
   getAstronautsByMission(mission_id: Number) {
     return this.knex
-      .select("*")
+      .select("crew.*")
       .from("crew")
       .join("mission_crew", "crew.id", "=", "mission_crew.crew_id")
       .where({
