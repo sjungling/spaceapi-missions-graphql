@@ -16,7 +16,7 @@ type Mission {
 
   **Example:** `Apollo 11`
   """
-  mission: String!
+  mission: String
   """
   Launch Date of mission includeing UTC timestamp
 
@@ -41,4 +41,5 @@ type Mission {
   Duration of the mission in seconds
   """
   duration: Int
+  media: [Media]
 }
