@@ -1,4 +1,10 @@
-import { Mission, NotFound, Resolvers, Media } from "../../types/resolvers";
+import {
+  Mission,
+  NotFound,
+  Resolvers,
+  Media,
+  Media_Sub_Type_Enum,
+} from "../../types/resolvers";
 import { formatAstronaut } from "../astronauts/astronauts.resolver";
 
 const missionResultToMissionType = (result: any): Mission => ({
@@ -52,11 +58,15 @@ export const resolvers: Resolvers = {
     },
     media: async (root, _args, { dataSources }) => {
       const results = await dataSources.db.getMissionMediaById(root.id);
-      const response = results.map(({ url, attribution, type }) => ({
-        url,
-        attribution: attribution ?? null,
-        type: type.toUpperCase(),
-      }));
+      const response = results.map(
+        ({ url, attribution, type, sub_type, description }) => ({
+          url,
+          attribution: attribution ?? null,
+          type: type.toUpperCase(),
+          subType: sub_type?.toUpperCase() ?? null,
+          description: description ?? null,
+        })
+      );
       return response;
     },
   },

@@ -6,6 +6,12 @@ enum MEDIA_TYPE_ENUM {
   IMAGE
   VIDEO
 }
+enum MEDIA_SUB_TYPE_ENUM {
+  INSIGNIA
+  PORTRAIT
+  MISSION
+  LAUNCH
+}
 
 """
 Image or Video from the internet
@@ -24,4 +30,10 @@ type Media {
   Denotes either a VIDEO or IMAGE
   """
   type: MEDIA_TYPE_ENUM!
+  """
+  Describe the type of media asset
+  Example: Insignia, Crew Portraits
+  """
+  subType: MEDIA_SUB_TYPE_ENUM
+  description: String
 }

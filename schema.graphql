@@ -7,6 +7,13 @@ enum MEDIA_TYPE_ENUM {
   VIDEO
 }
 
+enum MEDIA_SUB_TYPE_ENUM {
+  INSIGNIA
+  PORTRAIT
+  MISSION
+  LAUNCH
+}
+
 """Image or Video from the internet"""
 type Media {
   """Source URL"""
@@ -15,6 +22,12 @@ type Media {
   attribution: String
   """Denotes either a VIDEO or IMAGE"""
   type: MEDIA_TYPE_ENUM!
+  """
+  Describe the type of media asset
+  Example: Insignia, Crew Portraits
+  """
+  subType: MEDIA_SUB_TYPE_ENUM
+  description: String
 }
 
 type Query {
