@@ -17,12 +17,16 @@ type Mission {
   **Example:** `Apollo 11`
   """
   mission: String
+  status: MISSION_STATUS_ENUM!
   """
   Launch Date of mission includeing UTC timestamp
 
   **Example:** `10/11/1968 15:02:00`
   """
   launchDate: DateTime!
+  """
+  Crew members aboard the mission
+  """
   astronauts: [Astronaut]
   """
   Mapped from cm_name
@@ -41,5 +45,16 @@ type Mission {
   Duration of the mission in seconds
   """
   duration: Int
+  """
+  Images from Wikipedia
+  **Examples:** Mission Insignias, Crew Photos, photos from the mission.
+  """
   media: [Media]
+}
+
+enum MISSION_STATUS_ENUM {
+  CANCELED
+  COMPLETED
+  ABORTED
+  FAILED
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SQLDataSource } from "datasource-sql";
 import { DataSource } from "apollo-datasource";
 import { join } from "path";
@@ -19,17 +20,26 @@ class MyDatabase extends SQLDataSource {
   getMissions() {
     return this.knex.select("*").from("missions");
   }
-  getMissionById(mission_id: Number) {
+  getMissionById(mission_id: number) {
     return this.knex
       .select("*")
       .from("missions")
       .where({ id: mission_id })
       .limit(1);
   }
-  getMissionMediaById(mission_id: Number) {
+  getMissionMediaById(mission_id: number) {
     return this.knex.select("*").from("media").where({ mission_id });
   }
-  getAstronautsByMission(mission_id: Number) {
+  getMissionsByAstronaut(crew_id: number) {
+    return this.knex
+      .select("missions.*")
+      .from("missions")
+      .join("mission_crew", "missions.id", "=", "mission_crew.mission_id")
+      .where({
+        crew_id: crew_id,
+      });
+  }
+  getAstronautsByMission(mission_id: number) {
     return this.knex
       .select("crew.*")
       .from("crew")
@@ -41,7 +51,7 @@ class MyDatabase extends SQLDataSource {
   getAstronauts() {
     return this.knex.select("*").from("crew");
   }
-  getAstronautById(astronaut_id: Number) {
+  getAstronautById(astronaut_id: number) {
     return this.knex
       .select("*")
       .from("crew")
@@ -50,6 +60,6 @@ class MyDatabase extends SQLDataSource {
   }
 }
 
-export const dataSources = () => ({
+export const dataSources = (): { [key: string]: DataSource } => ({
   db: new MyDatabase(knexConfig) as DataSource,
 });
