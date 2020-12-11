@@ -5,6 +5,10 @@ type Query {
   Fetch all Astronauts from the Apollo space program
   """
   astronauts: [Astronaut]!
+  """
+  Find an Astronaut by their ID
+  May return a `NotFound`
+  """
   astronaut(id: Int): AstronautResult!
 }
 
@@ -17,4 +21,8 @@ type Astronaut {
   id: ID!
   firstName: String!
   lastName: String!
+  """
+  Missions flown by astronaut
+  """
+  missions: [Mission]!
 }

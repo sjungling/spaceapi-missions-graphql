@@ -1,4 +1,6 @@
-export const resolvers = {
+import { Resolvers } from "../types/resolvers";
+
+export const resolvers: Resolvers = {
   Query: {
     hello: async (_root, _args, { dataSources }) => {
       const astronaut = await dataSources.db.getAstronauts();

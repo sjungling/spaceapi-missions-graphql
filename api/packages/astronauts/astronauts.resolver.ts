@@ -1,9 +1,10 @@
 import { Astronaut, NotFound, Resolvers } from "../../types/resolvers";
-
+import { formatMission } from "../missions/missions.resolver";
 export const formatAstronaut = (result: any): Astronaut => ({
   id: result.id,
   firstName: result.first_name,
   lastName: result.last_name,
+  missions: result.missions?.map((mission) => formatMission(mission)) ?? [],
 });
 
 export const resolvers: Resolvers = {
@@ -36,8 +37,15 @@ export const resolvers: Resolvers = {
       return response;
     },
   },
+  Astronaut: {
+    missions: async (root, _args, { dataSources }) => {
+      const results = await dataSources.db.getMissionsByAstronaut(root.id);
+      const response = results.map((result) => formatMission(result));
+      return response;
+    },
+  },
   AstronautResult: {
-    __resolveType: (obj, _context, _info) => {
+    __resolveType: (obj) => {
       if ((obj as NotFound)?.message) {
         return "NotFound";
       } else {

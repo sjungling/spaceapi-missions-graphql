@@ -1,4 +1,4 @@
-import { ApolloServer, correctASTNodes } from "apollo-server-micro";
+import { ApolloServer } from "apollo-server-micro";
 import { typeDefs, resolvers } from "./merge-packages";
 import { dataSources } from "./data-sources";
 import cors from "micro-cors";

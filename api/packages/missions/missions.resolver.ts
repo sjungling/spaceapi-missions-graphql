@@ -1,13 +1,7 @@
-import {
-  Mission,
-  NotFound,
-  Resolvers,
-  Media,
-  Media_Sub_Type_Enum,
-} from "../../types/resolvers";
+import { Mission, NotFound, Resolvers } from "../../types/resolvers";
 import { formatAstronaut } from "../astronauts/astronauts.resolver";
 
-const missionResultToMissionType = (result: any): Mission => ({
+export const formatMission = (result: any): Mission => ({
   id: result.id,
   mission: result.mission,
   launchDate: result.launch_date_time,
@@ -16,6 +10,7 @@ const missionResultToMissionType = (result: any): Mission => ({
   launchVehicle: result.launch_vehicle,
   notes: result.remarks,
   duration: result.duration ? parseInt(result.duration, 10) : null,
+  status: result.status?.toUpperCase(),
 });
 
 export const resolvers: Resolvers = {
@@ -29,16 +24,14 @@ export const resolvers: Resolvers = {
        * better visibility into the ultimate response object
        */
       const results = await dataSources.db.getMissions();
-      const response = results.map((result) =>
-        missionResultToMissionType(result)
-      );
+      const response = results.map((result) => formatMission(result));
       return response;
     },
     mission: async (_root, args, { dataSources }) => {
       const result = await dataSources.db.getMissionById(args.id);
       let response;
       if (result.length > 0) {
-        response = missionResultToMissionType(result[0]);
+        response = formatMission(result[0]);
       } else {
         response = {
           message: "Unable to find that particular mission",
@@ -74,7 +67,7 @@ export const resolvers: Resolvers = {
    * Union Resolve Types
    */
   MissionResult: {
-    __resolveType: (obj, _context, _info) => {
+    __resolveType: (obj) => {
       /**
        * Cast `obj` as `NotFound` otherwise TS is confused on the existence of `id`
        */
