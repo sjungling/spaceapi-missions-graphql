@@ -1,4 +1,4 @@
-import { Astronaut, NotFound, Resolvers } from "../../types/resolvers";
+import { Astronaut, NotFound, Resolvers } from "../../@types/resolvers";
 import { formatMission } from "../missions/missions.resolver";
 export const formatAstronaut = (result: any): Astronaut => ({
   id: result.id,

@@ -1,6 +1,7 @@
 import { ApolloServer } from "apollo-server-micro";
+import { buildFederatedSchema } from "@apollo/federation";
 import { typeDefs, resolvers } from "./merge-packages";
-import { dataSources } from "./data-sources";
+import { dataSources } from "./data-sources/";
 import cors from "micro-cors";
 const corsHandler = cors({
   allowMethods: ["OPTIONS", "POST", "GET"],
@@ -8,8 +9,7 @@ const corsHandler = cors({
 });
 
 const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
+  schema: buildFederatedSchema({ typeDefs, resolvers }),
   dataSources,
   playground: true,
   introspection: true,

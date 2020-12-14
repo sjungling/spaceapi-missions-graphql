@@ -12,40 +12,16 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  _FieldSet: any;
 };
+
+
+
+
 
 export type NotFound = {
   __typename?: 'NotFound';
   message: Scalars['String'];
-};
-
-export enum Media_Type_Enum {
-  Image = 'IMAGE',
-  Video = 'VIDEO'
-}
-
-export enum Media_Sub_Type_Enum {
-  Insignia = 'INSIGNIA',
-  Portrait = 'PORTRAIT',
-  Mission = 'MISSION',
-  Launch = 'LAUNCH'
-}
-
-/** Image or Video from the internet */
-export type Media = {
-  __typename?: 'Media';
-  /** Source URL */
-  url: Scalars['String'];
-  /** Copyright notice, etc. */
-  attribution?: Maybe<Scalars['String']>;
-  /** Denotes either a VIDEO or IMAGE */
-  type: Media_Type_Enum;
-  /**
-   * Describe the type of media asset
-   * Example: Insignia, Crew Portraits
-   */
-  subType?: Maybe<Media_Sub_Type_Enum>;
-  description?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -114,11 +90,6 @@ export type Mission = {
   notes?: Maybe<Scalars['String']>;
   /** Duration of the mission in seconds */
   duration?: Maybe<Scalars['Int']>;
-  /**
-   * Images from Wikipedia
-   * **Examples:** Mission Insignias, Crew Photos, photos from the mission.
-   */
-  media?: Maybe<Array<Maybe<Media>>>;
 };
 
 export enum Mission_Status_Enum {
@@ -131,8 +102,20 @@ export enum Mission_Status_Enum {
 
 
 
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
+export type ReferenceResolver<TResult, TReference, TContext> = (
+      reference: TReference,
+      context: TContext,
+      info: GraphQLResolveInfo
+    ) => Promise<TResult> | TResult;
+
+      type ScalarCheck<T, S> = S extends true ? T : NullableCheck<T, S>;
+      type NullableCheck<T, S> = Maybe<T> extends T ? Maybe<ListCheck<NonNullable<T>, S>> : ListCheck<T, S>;
+      type ListCheck<T, S> = T extends (infer U)[] ? NullableCheck<U, S>[] : GraphQLRecursivePick<T, S>;
+      export type GraphQLRecursivePick<T, S> = { [K in keyof T & keyof S]: ScalarCheck<T[K], S[K]> };
+    
 
 export type LegacyStitchingResolver<TResult, TParent, TContext, TArgs> = {
   fragment: string;
@@ -209,9 +192,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   NotFound: ResolverTypeWrapper<NotFound>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  MEDIA_TYPE_ENUM: Media_Type_Enum;
-  MEDIA_SUB_TYPE_ENUM: Media_Sub_Type_Enum;
-  Media: ResolverTypeWrapper<Media>;
   Query: ResolverTypeWrapper<{}>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   AstronautResult: ResolversTypes['Astronaut'] | ResolversTypes['NotFound'];
@@ -228,7 +208,6 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   NotFound: NotFound;
   String: Scalars['String'];
-  Media: Media;
   Query: {};
   Int: Scalars['Int'];
   AstronautResult: ResolversParentTypes['Astronaut'] | ResolversParentTypes['NotFound'];
@@ -242,15 +221,6 @@ export type ResolversParentTypes = {
 
 export type NotFoundResolvers<ContextType = any, ParentType extends ResolversParentTypes['NotFound'] = ResolversParentTypes['NotFound']> = {
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type MediaResolvers<ContextType = any, ParentType extends ResolversParentTypes['Media'] = ResolversParentTypes['Media']> = {
-  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  attribution?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['MEDIA_TYPE_ENUM'], ParentType, ContextType>;
-  subType?: Resolver<Maybe<ResolversTypes['MEDIA_SUB_TYPE_ENUM']>, ParentType, ContextType>;
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -279,6 +249,7 @@ export type MissionResultResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type MissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mission'] = ResolversParentTypes['Mission']> = {
+  __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Mission']>, { __typename: 'Mission' } & GraphQLRecursivePick<ParentType, {"id":true}>, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   mission?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MISSION_STATUS_ENUM'], ParentType, ContextType>;
@@ -289,7 +260,6 @@ export type MissionResolvers<ContextType = any, ParentType extends ResolversPare
   launchVehicle?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   duration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  media?: Resolver<Maybe<Array<Maybe<ResolversTypes['Media']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -299,7 +269,6 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type Resolvers<ContextType = any> = {
   NotFound?: NotFoundResolvers<ContextType>;
-  Media?: MediaResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   AstronautResult?: AstronautResultResolvers<ContextType>;
   Astronaut?: AstronautResolvers<ContextType>;

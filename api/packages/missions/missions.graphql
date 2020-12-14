@@ -9,7 +9,7 @@ type Query {
 
 union MissionResult = Mission | NotFound
 
-type Mission {
+type Mission @key(fields: "id") {
   id: ID!
   """
   Commonly associated with the name.
@@ -45,11 +45,11 @@ type Mission {
   Duration of the mission in seconds
   """
   duration: Int
-  """
-  Images from Wikipedia
-  **Examples:** Mission Insignias, Crew Photos, photos from the mission.
-  """
-  media: [Media]
+  # """
+  # Images from Wikipedia
+  # **Examples:** Mission Insignias, Crew Photos, photos from the mission.
+  # """
+  # media: [Media]
 }
 
 enum MISSION_STATUS_ENUM {

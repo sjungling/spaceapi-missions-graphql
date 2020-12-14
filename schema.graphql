@@ -2,34 +2,6 @@ type NotFound {
   message: String!
 }
 
-enum MEDIA_TYPE_ENUM {
-  IMAGE
-  VIDEO
-}
-
-enum MEDIA_SUB_TYPE_ENUM {
-  INSIGNIA
-  PORTRAIT
-  MISSION
-  LAUNCH
-}
-
-"""Image or Video from the internet"""
-type Media {
-  """Source URL"""
-  url: String!
-  """Copyright notice, etc."""
-  attribution: String
-  """Denotes either a VIDEO or IMAGE"""
-  type: MEDIA_TYPE_ENUM!
-  """
-  Describe the type of media asset
-  Example: Insignia, Crew Portraits
-  """
-  subType: MEDIA_SUB_TYPE_ENUM
-  description: String
-}
-
 type Query {
   hello: String
   """Fetch all Astronauts from the Apollo space program"""
@@ -57,7 +29,7 @@ type Astronaut {
 
 union MissionResult = Mission | NotFound
 
-type Mission {
+type Mission @key(fields: "id") {
   id: ID!
   """
   Commonly associated with the name.
@@ -83,11 +55,6 @@ type Mission {
   notes: String
   """Duration of the mission in seconds"""
   duration: Int
-  """
-  Images from Wikipedia
-  **Examples:** Mission Insignias, Crew Photos, photos from the mission.
-  """
-  media: [Media]
 }
 
 enum MISSION_STATUS_ENUM {
