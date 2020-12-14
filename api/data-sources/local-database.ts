@@ -1,18 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SQLDataSource } from "datasource-sql";
-import { DataSource } from "apollo-datasource";
-import { join } from "path";
 
-const databasePath = join(__dirname, "db", "apollo.sqlite3");
-const knexConfig = {
-  client: "sqlite3",
-  connection: {
-    filename: databasePath,
-  },
-  useNullAsDefault: false,
-};
-
-class MyDatabase extends SQLDataSource {
+export default class LocalDatabase extends SQLDataSource {
   knex: any;
   constructor(config: any) {
     super(config);
@@ -59,7 +48,3 @@ class MyDatabase extends SQLDataSource {
       .limit(1);
   }
 }
-
-export const dataSources = (): { [key: string]: DataSource } => ({
-  db: new MyDatabase(knexConfig) as DataSource,
-});
