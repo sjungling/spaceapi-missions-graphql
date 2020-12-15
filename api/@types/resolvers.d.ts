@@ -71,7 +71,7 @@ export type Mission = {
    * 
    * **Example:** `Apollo 11`
    */
-  mission?: Maybe<Scalars['String']>;
+  mission: Scalars['String'];
   status: Mission_Status_Enum;
   /**
    * Launch Date of mission includeing UTC timestamp
@@ -80,11 +80,11 @@ export type Mission = {
    */
   launchDate: Scalars['DateTime'];
   /** Crew members aboard the mission */
-  astronauts?: Maybe<Array<Maybe<Astronaut>>>;
+  astronauts: Array<Astronaut>;
   /** Mapped from cm_name */
-  commandModule?: Maybe<Scalars['String']>;
+  commandModule: Scalars['String'];
   /** Mapped from lm_name */
-  lunarModule?: Maybe<Scalars['String']>;
+  lunarModule: Scalars['String'];
   launchVehicle: Scalars['String'];
   /** Mapped from remarks */
   notes?: Maybe<Scalars['String']>;
@@ -249,14 +249,14 @@ export type MissionResultResolvers<ContextType = any, ParentType extends Resolve
 };
 
 export type MissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mission'] = ResolversParentTypes['Mission']> = {
-  __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Mission']>, { __typename: 'Mission' } & GraphQLRecursivePick<ParentType, {"id":true}>, ContextType>;
+  __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Mission']>, { __typename: 'Mission' } & (GraphQLRecursivePick<ParentType, {"id":true}> | GraphQLRecursivePick<ParentType, {"mission":true}>), ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  mission?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  mission?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MISSION_STATUS_ENUM'], ParentType, ContextType>;
   launchDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  astronauts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Astronaut']>>>, ParentType, ContextType>;
-  commandModule?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  lunarModule?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  astronauts?: Resolver<Array<ResolversTypes['Astronaut']>, ParentType, ContextType>;
+  commandModule?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lunarModule?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   launchVehicle?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   duration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;

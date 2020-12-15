@@ -9,14 +9,14 @@ type Query {
 
 union MissionResult = Mission | NotFound
 
-type Mission @key(fields: "id") {
+type Mission @key(fields: "id") @key(fields: "mission") {
   id: ID!
   """
   Commonly associated with the name.
 
   **Example:** `Apollo 11`
   """
-  mission: String
+  mission: String!
   status: MISSION_STATUS_ENUM!
   """
   Launch Date of mission includeing UTC timestamp
@@ -27,15 +27,15 @@ type Mission @key(fields: "id") {
   """
   Crew members aboard the mission
   """
-  astronauts: [Astronaut]
+  astronauts: [Astronaut!]!
   """
   Mapped from cm_name
   """
-  commandModule: String
+  commandModule: String!
   """
   Mapped from lm_name
   """
-  lunarModule: String
+  lunarModule: String!
   launchVehicle: String!
   """
   Mapped from remarks
@@ -50,6 +50,7 @@ type Mission @key(fields: "id") {
   # **Examples:** Mission Insignias, Crew Photos, photos from the mission.
   # """
   # media: [Media]
+  # images: [Image]
 }
 
 enum MISSION_STATUS_ENUM {
@@ -58,3 +59,7 @@ enum MISSION_STATUS_ENUM {
   ABORTED
   FAILED
 }
+
+# extend type Image @key(fields: "id") {
+#   id: ID! @external
+# }
