@@ -74,7 +74,7 @@ export type Mission = {
   mission: Scalars['String'];
   status: Mission_Status_Enum;
   /**
-   * Launch Date of mission includeing UTC timestamp
+   * Launch Date of mission including UTC timestamp
    * 
    * **Example:** `10/11/1968 15:02:00`
    */
