@@ -7,7 +7,7 @@
     "generate": "yarn generate:schema && yarn generate:types",
     "generate:types": "graphql-codegen --config codegen-server.yml",
     "generate:schema": "ts-node scripts/generate-schema.ts",
-    "format": "prettier -w '{api,scripts,seeds}/**/*.{ts,tsx,graphql,yml,json}'",
+    "format": "prettier -w '{api,scripts,seeds}/**/*.{ts,tsx,graphql,yml,json}' '**/*.md'",
     "load:data": "knex seed:run",
     "lint": "eslint '{api,scripts,seeds}/**/*.ts'",
     "check-all": "yarn format && yarn lint"

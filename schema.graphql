@@ -39,7 +39,7 @@ type Mission @key(fields: "id") @key(fields: "mission") {
   mission: String!
   status: MISSION_STATUS_ENUM!
   """
-  Launch Date of mission includeing UTC timestamp
+  Launch Date of mission including UTC timestamp
   
   **Example:** `10/11/1968 15:02:00`
   """
