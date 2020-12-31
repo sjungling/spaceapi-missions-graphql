@@ -1,0 +1,10 @@
+overwrite: true
+schema:
+  - "./api/packages/**/*.graphql"
+generates:
+  ./schema.graphql:
+    plugins:
+      - schema-ast
+    config:
+      federation: true
+      sort: true
