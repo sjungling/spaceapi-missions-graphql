@@ -1,4 +1,6 @@
 # import NotFound from '../common.graphql'
+# import DateTime from '../scalars/scalars.graphql'
+# import Astronaut from '../astronauts/astronauts.graphql'
 type Query {
   """
   Fetch all Apollo space program missions
