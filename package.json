@@ -17,7 +17,7 @@
     "@graphql-codegen/cli": "^1.19.4",
     "@graphql-codegen/schema-ast": "^1.18.1",
     "@graphql-codegen/typescript": "^1.19.0",
-    "@graphql-codegen/typescript-resolvers": "^1.18.0",
+    "@graphql-codegen/typescript-resolvers": "^2.4.2",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
     "@typescript-eslint/parser": "^4.9.1",
     "apollo-datasource": "^0.7.2",
