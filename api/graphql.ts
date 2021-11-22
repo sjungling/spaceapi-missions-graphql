@@ -1,6 +1,6 @@
 import { ApolloServer } from "apollo-server-micro";
 import { buildFederatedSchema } from "@apollo/federation";
-import { ApolloServerPluginUsageReportingDisabled } from "apollo-server-core";
+import { ApolloServerPluginInlineTraceDisabled } from "apollo-server-core";
 import { typeDefs, resolvers } from "./merge-packages";
 import { dataSources } from "./data-sources/";
 import cors from "micro-cors";
@@ -17,7 +17,7 @@ const apolloServer = new ApolloServer({
   cacheControl: {
     defaultMaxAge: 300,
   },
-  plugins: [ApolloServerPluginUsageReportingDisabled()],
+  plugins: [ApolloServerPluginInlineTraceDisabled()],
 });
 
 export const config = {
