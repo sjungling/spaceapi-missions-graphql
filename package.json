@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@apollo/federation": "^0.20.7",
-    "@graphql-codegen/cli": "^1.19.4",
+    "@graphql-codegen/cli": "^2.3.0",
     "@graphql-codegen/schema-ast": "^1.18.1",
     "@graphql-codegen/typescript": "^1.19.0",
     "@graphql-codegen/typescript-resolvers": "^2.4.2",
