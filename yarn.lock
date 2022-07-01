@@ -2798,10 +2798,10 @@ cssfilter@0.0.10:
   resolved "https://registry.yarnpkg.com/cssfilter/-/cssfilter-0.0.10.tgz#c6d2672632a2e5c83e013e6864a42ce8defd20ae"
   integrity sha1-xtJnJjKi5cg+AT5oZKQs6N79IK4=
 
-csv-parse@^4.14.1:
-  version "4.14.1"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.14.1.tgz#b6b3736508fb94682fa6d450fe1755237221d291"
-  integrity sha512-4wmcO7QbWtDAncGFaBwlWFPhEN4Akr64IbM4zvDwEOFekI8blLc04Nw7XjQjtSNy+3AUAgBgtUa9nWo5Cq89Xg==
+csv-parse@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-5.2.2.tgz#46cafc760fd56f6e2fb347b3eb4d3ba026845248"
+  integrity sha512-WCQVGZM5YEj+2+mOuV0ss73GQi/pSlurOGD7qlJJi0sY9DPp2KiX7AInd3W1mjaxnIASlUIHirsTnLX5LoHF4g==
 
 cz-conventional-changelog@3.3.0, cz-conventional-changelog@^3.3.0:
   version "3.3.0"

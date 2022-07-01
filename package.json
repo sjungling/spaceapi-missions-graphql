@@ -16,7 +16,7 @@
     "@apollo/federation": "^0.29.1",
     "apollo-datasource": "^0.7.2",
     "apollo-server-micro": "^2.25.3",
-    "csv-parse": "^4.14.1",
+    "csv-parse": "^5.2.2",
     "datasource-sql": "^1.5.0",
     "graphql": "^15.8.0",
     "micro-cors": "^0.1.1",
