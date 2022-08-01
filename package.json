@@ -13,7 +13,7 @@
     "check-all": "yarn format && yarn lint"
   },
   "dependencies": {
-    "@apollo/federation": "^0.29.1",
+    "@apollo/federation": "^0.36.1",
     "apollo-datasource": "^0.7.2",
     "apollo-server-micro": "^2.25.3",
     "csv-parse": "^4.14.1",
