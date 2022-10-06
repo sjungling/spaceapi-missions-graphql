@@ -7,4 +7,5 @@ generates:
       - schema-ast
     config:
       federation: true
+      includeDirectives: true
       sort: true

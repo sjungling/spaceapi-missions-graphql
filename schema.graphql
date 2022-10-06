@@ -1,20 +1,20 @@
+schema {
+  query: Query
+}
+
 directive @external on FIELD_DEFINITION
 
-directive @key(fields: _FieldSet!) on INTERFACE | OBJECT
+directive @key(fields: _FieldSet!) on OBJECT | INTERFACE
 
 directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
 
 directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
 
-scalar _FieldSet
-
 type Astronaut {
   firstName: String!
-
   """ID is an auto-incrementing value from data store"""
   id: ID!
   lastName: String!
-
   """Missions flown by astronaut"""
   missions: [Mission]!
 }
@@ -23,43 +23,37 @@ union AstronautResult = Astronaut | NotFound
 
 scalar DateTime
 
-type Mission {
+enum MISSION_STATUS_ENUM {
+  ABORTED
+  CANCELED
+  COMPLETED
+  FAILED
+}
+
+type Mission @key(fields: "mission") {
   """Crew members aboard the mission"""
   astronauts: [Astronaut!]!
-
   """Mapped from cm_name"""
   commandModule: String!
-
   """Duration of the mission in seconds"""
   duration: Int
   id: ID!
-
   """
   Launch Date of mission including UTC timestamp
   **Example:** `10/11/1968 15:02:00`
   """
   launchDate: DateTime!
   launchVehicle: String!
-
   """Mapped from lm_name"""
   lunarModule: String!
-
   """
   Commonly associated with the name.
   **Example:** `Apollo 11`
   """
   mission: String!
-
   """Mapped from remarks"""
   notes: String
   status: MISSION_STATUS_ENUM!
-}
-
-enum MISSION_STATUS_ENUM {
-  ABORTED
-  CANCELED
-  COMPLETED
-  FAILED
 }
 
 union MissionResult = Mission | NotFound
@@ -74,12 +68,12 @@ type Query {
   May return a `NotFound`
   """
   astronaut(id: Int): AstronautResult!
-
   """Fetch all Astronauts from the Apollo space program"""
   astronauts: [Astronaut]!
   hello: String
   mission(id: Int!): MissionResult!
-
   """Fetch all Apollo space program missions"""
   missions: [Mission]
 }
+
+scalar _FieldSet
