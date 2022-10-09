@@ -10,7 +10,7 @@
     "format": "prettier -w '{api,scripts,seeds}/**/*.{ts,tsx,graphql,yml,json}' '**/*.md'",
     "load:data": "knex seed:run",
     "lint": "eslint '{api,scripts,seeds}/**/*.ts'",
-    "check-all": "yarn format && yarn lint"
+    "check:all": "yarn format && yarn lint"
   },
   "dependencies": {
     "@apollo/federation": "0.37.1",
