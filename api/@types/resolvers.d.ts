@@ -1,9 +1,10 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -11,14 +12,9 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  _FieldSet: any;
   DateTime: any;
+  _FieldSet: any;
 };
-
-
-
-
-
 
 export type Astronaut = {
   __typename?: 'Astronaut';
@@ -32,6 +28,12 @@ export type Astronaut = {
 
 export type AstronautResult = Astronaut | NotFound;
 
+export enum Mission_Status_Enum {
+  Aborted = 'ABORTED',
+  Canceled = 'CANCELED',
+  Completed = 'COMPLETED',
+  Failed = 'FAILED'
+}
 
 export type Mission = {
   __typename?: 'Mission';
@@ -60,13 +62,6 @@ export type Mission = {
   status: Mission_Status_Enum;
 };
 
-export enum Mission_Status_Enum {
-  Aborted = 'ABORTED',
-  Canceled = 'CANCELED',
-  Completed = 'COMPLETED',
-  Failed = 'FAILED'
-}
-
 export type MissionResult = Mission | NotFound;
 
 export type NotFound = {
@@ -91,7 +86,7 @@ export type Query = {
 
 
 export type QueryAstronautArgs = {
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -103,6 +98,17 @@ export type QueryMissionArgs = {
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
+export type ReferenceResolver<TResult, TReference, TContext> = (
+      reference: TReference,
+      context: TContext,
+      info: GraphQLResolveInfo
+    ) => Promise<TResult> | TResult;
+
+      type ScalarCheck<T, S> = S extends true ? T : NullableCheck<T, S>;
+      type NullableCheck<T, S> = Maybe<T> extends T ? Maybe<ListCheck<NonNullable<T>, S>> : ListCheck<T, S>;
+      type ListCheck<T, S> = T extends (infer U)[] ? NullableCheck<U, S>[] : GraphQLRecursivePick<T, S>;
+      export type GraphQLRecursivePick<T, S> = { [K in keyof T & keyof S]: ScalarCheck<T[K], S[K]> };
+    
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
@@ -174,8 +180,8 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  Mission: ResolverTypeWrapper<Mission>;
   MISSION_STATUS_ENUM: Mission_Status_Enum;
+  Mission: ResolverTypeWrapper<Mission>;
   MissionResult: ResolversTypes['Mission'] | ResolversTypes['NotFound'];
   NotFound: ResolverTypeWrapper<NotFound>;
   Query: ResolverTypeWrapper<{}>;
@@ -214,6 +220,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type MissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mission'] = ResolversParentTypes['Mission']> = {
+  __resolveReference?: ReferenceResolver<Maybe<ResolversTypes['Mission']>, { __typename: 'Mission' } & GraphQLRecursivePick<ParentType, {"mission":true}>, ContextType>;
   astronauts?: Resolver<Array<ResolversTypes['Astronaut']>, ParentType, ContextType>;
   commandModule?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   duration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -237,7 +244,7 @@ export type NotFoundResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  astronaut?: Resolver<ResolversTypes['AstronautResult'], ParentType, ContextType, RequireFields<QueryAstronautArgs, never>>;
+  astronaut?: Resolver<ResolversTypes['AstronautResult'], ParentType, ContextType, Partial<QueryAstronautArgs>>;
   astronauts?: Resolver<Array<Maybe<ResolversTypes['Astronaut']>>, ParentType, ContextType>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   mission?: Resolver<ResolversTypes['MissionResult'], ParentType, ContextType, RequireFields<QueryMissionArgs, 'id'>>;
