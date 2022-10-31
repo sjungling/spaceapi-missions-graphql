@@ -18,7 +18,7 @@
     "@graphql-tools/load-files": "6.6.1",
     "@graphql-tools/merge": "8.3.8",
     "apollo-datasource": "3.3.2",
-    "apollo-server-micro": "3.10.3",
+    "apollo-server-micro": "3.10.4",
     "csv-parse": "4.16.3",
     "datasource-sql": "1.5.0",
     "graphql": "16.6.0",
