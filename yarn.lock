@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@apollo/cache-control-types/-/cache-control-types-1.0.2.tgz#f42ed3563acc7f1f50617d65d208483977adc68e"
   integrity sha512-Por80co1eUm4ATsvjCOoS/tIR8PHxqVjsA6z76I6Vw0rFn4cgyVElQcmQDIZiYsy41k8e5xkrMRECkM2WR8pNw==
 
-"@apollo/federation-internals@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@apollo/federation-internals/-/federation-internals-2.2.0.tgz#04dad3d794e33d63e72c1ac973195761cb5a84be"
-  integrity sha512-oYvzGVH9AIRq1xzHrdyRwD+7qHb0OxQud5b5xHdLIePAbMhepIvYAPZDX9NqGDj5gcrTGkb2C+aW6a9B4EzyeQ==
+"@apollo/federation-internals@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@apollo/federation-internals/-/federation-internals-2.2.1.tgz#348e842c328e5dbf8138f4542ab968367d2d44ec"
+  integrity sha512-T+nxIhppu/5jNFIhfzYERIhgDvp2QqbSqnQpViDNEmK/iPKsXLFtOedZZgsAUpMIQoUedNNNuceTE9+lDUn+bA==
   dependencies:
     chalk "^4.1.0"
     js-levenshtein "^1.1.6"
@@ -43,13 +43,13 @@
     "@types/node" "^10.1.0"
     long "^4.0.0"
 
-"@apollo/subgraph@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@apollo/subgraph/-/subgraph-2.2.0.tgz#5b1661663bd733a5dddd1e3707a475aac62deb73"
-  integrity sha512-nYeFetuykyzfqj8gwLnJD+gi3CvOeEVEQPaSy8nmHm7DacCuFLbalQwLyWlI3Afx2DrsWlWOxZBqt2pw9ke2MA==
+"@apollo/subgraph@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@apollo/subgraph/-/subgraph-2.2.1.tgz#56d9a87a36e546354c433a4121d31615dd934289"
+  integrity sha512-fAm7KXr54/5mDA2mhR36AI8rwiaPGHpT9s51t8mOpnKNpX8vc9KrdlPqCAF88LKVxKRZBDTNjlD5sRgx0tQl5w==
   dependencies:
     "@apollo/cache-control-types" "^1.0.2"
-    "@apollo/federation-internals" "^2.2.0"
+    "@apollo/federation-internals" "^2.2.1"
 
 "@apollo/subgraph@^0.6.1":
   version "0.6.1"
