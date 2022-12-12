@@ -24,7 +24,7 @@
     "graphql": "16.6.0",
     "micro": "9.4.1",
     "micro-cors": "0.1.1",
-    "sqlite3": "5.1.2",
+    "sqlite3": "5.1.4",
     "typescript": "4.9.4"
   },
   "devDependencies": {
