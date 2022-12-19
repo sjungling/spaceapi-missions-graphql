@@ -32,8 +32,8 @@
     "@graphql-codegen/schema-ast": "2.6.0",
     "@graphql-codegen/typescript": "2.8.5",
     "@graphql-codegen/typescript-resolvers": "2.7.10",
-    "@typescript-eslint/eslint-plugin": "5.46.1",
-    "@typescript-eslint/parser": "5.46.1",
+    "@typescript-eslint/eslint-plugin": "5.47.0",
+    "@typescript-eslint/parser": "5.47.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.30.0",
     "prettier": "2.8.1"
